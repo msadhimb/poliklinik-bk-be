@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'admin',
         'passwords' => 'users',
     ],
 
@@ -36,9 +36,13 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
+        'admin' => [
+            'driver' => 'jwt',
+            'provider' => 'admins',
+        ],
+        'dokter' => [
+            'driver' => 'jwt',
+            'provider' => 'dokters',
         ],
     ],
 
@@ -60,9 +64,13 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'admins' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\Admin::class,
+        ],
+        'dokters' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Dokter::class,
         ],
 
         // 'users' => [

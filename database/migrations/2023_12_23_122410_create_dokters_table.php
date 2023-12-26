@@ -12,11 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('dokter', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
+            $table->uuid('id')->primary();
             $table->string('nama');
+            $table->string('username')->unique();
             $table->string('alamat');
             $table->string('no_hp');
-            $table->integer('id_poli')->unsigned();
+            $table->uuid('id_poli')->nullable();
+            $table->string("role");
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
 
             $table->foreign('id_poli')->references('id')->on('poli');
         });

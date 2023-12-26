@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('periksa', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
-            $table->integer('id_daftar_poli')->unsigned();
+            $table->uuid('id')->primary();
+            $table->uuid('id_daftar_poli');
             $table->dateTime('tanggal')->nullable();
             $table->text('catatan')->nullable();
             $table->integer('biaya_periksa')->nullable();

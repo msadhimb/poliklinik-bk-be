@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use App\Models\Dokter;
 use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
-class DokterController extends Controller
+class AdminController extends Controller
 {
+ 
     public function __construct()
     {
-        $this->middleware('auth:dokter', ['except' => ['login', 'store']]);
+        $this->middleware('auth:admin', ['except' => ['login', 'store']]);
     }
 
     public function store(Request $request)
     {
         $validator  = Validator::make($request->all(), [
-            'nama'      => 'required',
-            'username'  => 'required:unique:dokter',
-            'alamat'    => 'required',
-            'no_hp'     => 'required',
+            'name'      => 'required',
+            'username'  => 'required:unique:admin',
             'role'      => 'required',
             'password'  => 'required',
         ]);
@@ -30,7 +30,7 @@ class DokterController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $dokter = Dokter::create(
+        $admin = Admin::create(
             array_merge(
                 $validator->validated(),
                 [
@@ -42,15 +42,15 @@ class DokterController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Data dokter berhasil ditambahkan',
+            'message' => 'Data admin berhasil ditambahkan',
         ], 201);
     }
-
+    
     public function login(Request $request)
     {
         $credentials = $request->only('username', 'password');
 
-        if (!$token = auth()->guard('dokter')->attempt($credentials)) {
+        if (!$token = auth()->guard('admin')->attempt($credentials)) {
             return response()->json(['error' => 'Username atau password salah.'], 401);
         }
 
@@ -59,12 +59,23 @@ class DokterController extends Controller
 
     public function me()
     {
-        return response()->json(auth()->guard('dokter')->user());
+        auth()->guard('admin')->user();
+
+        if (!$admin = JWTAuth::parseToken()->authenticate()) {
+            return response()->json(['Unauthorized'], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil menampilkan data admin.',
+            'data' => $admin
+        ]);
     }
+
 
     public function logout()
     {
-        auth()->guard('dokter')->logout();
+        auth()->guard('admin')->logout();
 
         return response()->json(['message' => 'Berhasil logout.']);
     }
@@ -72,10 +83,11 @@ class DokterController extends Controller
     protected function respondWithToken($token)
     {
         return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => Auth::factory()->getTTL() * 60
+            'success' => true,
+            'message' => 'Berhasil login.',
+            'data' => [
+                'token' => $token,
+            ],
         ]);
-    } 
-
+    }
 }

@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Auth\Passwords\CanResetPassword;
 
-class Dokter extends Authenticatable implements JWTSubject, MustVerifyEmail
+class Admin extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, CanResetPassword;
 
@@ -19,7 +19,7 @@ class Dokter extends Authenticatable implements JWTSubject, MustVerifyEmail
      *
      * @var string
      */
-    protected $table = 'dokter';
+    protected $table = 'admin';
 
     /**
      * The attributes that are mass assignable.
@@ -28,11 +28,8 @@ class Dokter extends Authenticatable implements JWTSubject, MustVerifyEmail
      */
     protected $fillable = [
         'id',
-        'nama',
+        'name',
         'username',
-        'alamat',
-        'no_hp',
-        'id_poli',
         'role',
         'password',
     ];

@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('daftar_poli', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
-            $table->integer('id_pasien')->unsigned();
-            $table->integer('id_jadwal')->unsigned();
+            $table->uuid('id')->primary();
+            $table->uuid('id_pasien');
+            $table->uuid('id_jadwal');
             $table->text('keluhan')->nullable();
             $table->integer('no_antrian')->unsigned()->nullable();
 

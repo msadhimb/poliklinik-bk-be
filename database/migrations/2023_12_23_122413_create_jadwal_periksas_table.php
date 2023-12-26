@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('jadwal_periksa', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
-            $table->integer('id_dokter')->unsigned();
+            $table->uuid('id')->primary();
+            $table->uuid('id_dokter');
             $table->enum('hari', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']);
             $table->time('jam_mulai');
             $table->time('jam_selesai');
