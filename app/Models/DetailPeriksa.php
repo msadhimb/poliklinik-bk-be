@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Periksa extends Model
+class DetailPeriksa extends Model
 {
     use HasFactory;
 
-    protected $table = 'periksa';
+    protected $table = 'detail_periksa';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
@@ -17,14 +17,17 @@ class Periksa extends Model
 
     protected $fillable = [
         'id',
-        'id_daftar_poli',
-        'tanggal',
-        'catatan',
-        'biaya_periksa',
+        'id_periksa',
+        'id_obat',
     ];
 
-    public function daftar_poli()
+    public function periksa()
     {
-        return $this->belongsTo(DaftarPoli::class, 'id_daftar_poli', 'id');
+        return $this->belongsTo(Periksa::class, 'id_periksa', 'id');
+    }
+
+    public function obat()
+    {
+        return $this->belongsTo(Obat::class, 'id_obat', 'id');
     }
 }

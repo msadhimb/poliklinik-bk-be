@@ -85,4 +85,9 @@ class Dokter extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         return [];
     }
+
+    public function poli()
+    {
+        return $this->belongsTo(Poli::class, 'id_poli', 'id');
+    }
 }

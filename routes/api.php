@@ -48,3 +48,71 @@ Route::group([
     Route::put('/{id}', [App\Http\Controllers\ObatController::class, 'update']);
     Route::delete('/{id}', [App\Http\Controllers\ObatController::class, 'destroy']);
 });
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function ($router) {
+    Route::post('pasien/login', [App\Http\Controllers\PasienController::class, 'login'])->name('login');
+    Route::post('pasien/', [App\Http\Controllers\PasienController::class, 'register']);
+    Route::post('pasien/logout', [App\Http\Controllers\PasienController::class, 'logout']);
+    Route::post('pasien/me', [App\Http\Controllers\PasienController::class, 'me']);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'poli'
+], function ($router) {
+    Route::get('/', [App\Http\Controllers\PoliController::class, 'index']);
+    Route::get('/{id}', [App\Http\Controllers\PoliController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\PoliController::class, 'store']);
+    Route::put('/{id}', [App\Http\Controllers\PoliController::class, 'update']);
+    Route::delete('/{id}', [App\Http\Controllers\PoliController::class, 'destroy']);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'jadwal_periksa'
+], function ($router) {
+    Route::get('/', [App\Http\Controllers\JadwalPeriksaController::class, 'index']);
+    Route::get('/{id}', [App\Http\Controllers\JadwalPeriksaController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\JadwalPeriksaController::class, 'store']);
+    Route::put('/{id}', [App\Http\Controllers\JadwalPeriksaController::class, 'update']);
+    Route::delete('/{id}', [App\Http\Controllers\JadwalPeriksaController::class, 'destroy']);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'daftar_poli'
+], function ($router) {
+    Route::get('/', [App\Http\Controllers\DaftarPoliController::class, 'index']);
+    Route::get('/{id}', [App\Http\Controllers\DaftarPoliController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\DaftarPoliController::class, 'store']);
+    Route::put('/{id}', [App\Http\Controllers\DaftarPoliController::class, 'update']);
+    Route::delete('/{id}', [App\Http\Controllers\DaftarPoliController::class, 'destroy']);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'periksa'
+], function ($router) {
+    Route::get('/', [App\Http\Controllers\PeriksaController::class, 'index']);
+    Route::get('/{id}', [App\Http\Controllers\PeriksaController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\PeriksaController::class, 'store']);
+    Route::put('/{id}', [App\Http\Controllers\PeriksaController::class, 'update']);
+    Route::delete('/{id}', [App\Http\Controllers\PeriksaController::class, 'destroy']);
+    Route::get('/daftar_poli/{id}', [App\Http\Controllers\PeriksaController::class, 'showByDafPolId']);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'detail_periksa'
+], function ($router) {
+    Route::get('/', [App\Http\Controllers\DetailPeriksaController::class, 'index']);
+    Route::get('/{id}', [App\Http\Controllers\DetailPeriksaController::class, 'show']);
+    Route::post('/', [App\Http\Controllers\DetailPeriksaController::class, 'store']);
+    Route::put('/{id}', [App\Http\Controllers\DetailPeriksaController::class, 'update']);
+    Route::delete('/{id}', [App\Http\Controllers\DetailPeriksaController::class, 'destroy']);   
+    Route::get('/periksa/{id}', [App\Http\Controllers\DetailPeriksaController::class, 'showByPeriksaId']);
+    Route::delete('/obat/{id}/{idPeriksa}', [App\Http\Controllers\DetailPeriksaController::class, 'destroyByObatId']);
+});

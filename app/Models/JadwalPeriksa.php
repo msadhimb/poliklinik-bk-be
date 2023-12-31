@@ -5,26 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Periksa extends Model
+class JadwalPeriksa extends Model
 {
     use HasFactory;
 
-    protected $table = 'periksa';
+    protected $table = 'jadwal_periksa';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
     public $timestamps = false;
 
+
     protected $fillable = [
         'id',
-        'id_daftar_poli',
+        'id_dokter',
+        'hari',
+        'jam_mulai',
+        'jam_selesai',
         'tanggal',
-        'catatan',
-        'biaya_periksa',
     ];
 
-    public function daftar_poli()
+    public function dokter()
     {
-        return $this->belongsTo(DaftarPoli::class, 'id_daftar_poli', 'id');
+        return $this->belongsTo(Dokter::class, 'id_dokter', 'id');
     }
+
+
 }
