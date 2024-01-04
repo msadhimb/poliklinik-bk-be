@@ -129,7 +129,7 @@ class DokterController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $dokter->update($validator->validated());
+        $dokter->update($request->all());
 
         return response()->json([
             'success' => true,

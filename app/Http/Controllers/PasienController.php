@@ -99,7 +99,7 @@ class PasienController extends Controller
 
     public function index()
     {
-        $pasien = Pasien::all();
+        $pasien = Pasien::orderBy('created_at', 'ASC')->get();
 
         return response()->json([
             'success' => true,
@@ -143,7 +143,6 @@ class PasienController extends Controller
             'alamat'    => 'required',
             'no_hp'     => 'required',
             'no_ktp'    => 'required',
-            'password'  => 'required',
         ]);
 
         if ($validator->fails()) {
