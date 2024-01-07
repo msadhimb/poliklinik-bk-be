@@ -40,10 +40,18 @@ class JadwalPeriksaController extends Controller
             'jam_mulai' => 'required|string',
             'jam_selesai' => 'required|string',
             'tanggal' => 'required|date',
+            'status_aktif' => 'required|string',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
+        }
+
+        $existingActiveRecord = JadwalPeriksa::where('status_aktif', 'Y')->where('id_dokter', $request->input('id_dokter'))->first();
+        if ($existingActiveRecord && $request->input('status_aktif') === 'Y') {
+            return response()->json([
+                'error' => 'Jadwal Dengan Status Aktif Ditemukan',
+            ], 400);
         }
 
         $jadwal_periksa = JadwalPeriksa::create(
@@ -67,13 +75,22 @@ class JadwalPeriksaController extends Controller
             'jam_mulai' => 'required|string',
             'jam_selesai' => 'required|string',
             'tanggal' => 'required|date',
+            'status_aktif' => 'required|string',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
+        $existingActiveRecord = JadwalPeriksa::where('status_aktif', 'Y')->where('id_dokter', $request->input('id_dokter'))->first();
+        if ($existingActiveRecord && $request->input('status_aktif') === 'Y') {
+            return response()->json([
+                'error' => 'Jadwal Dengan Status Aktif Ditemukan',
+            ], 400);
+        }
+
         $jadwal_periksa = JadwalPeriksa::findOrFail($id);
+
 
         if ($jadwal_periksa) {
             $jadwal_periksa->update($validator->validated());

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->time('jam_mulai');
             $table->time('jam_selesai');
             $table->datetime('tanggal');
+            $table->string('status_aktif')->default('N');
 
             $table->foreign('id_dokter')->references('id')->on('dokter');
         });
